@@ -28,7 +28,10 @@ async function run() {
         chunk.map(screenshot =>
           fse.move(
             screenshot,
-            `${screenshotsTmp}/${chunkIndex}/${screenshot.replace(screenshotsBase, '').replace(/^\//, '')}`,
+            `${screenshotsTmp}/${chunkIndex}/${screenshot
+              .replace(screenshotsBase, '')
+              .replace(/^\//, '')}`,
+            { overwrite: true },
           ),
         ),
       ),
