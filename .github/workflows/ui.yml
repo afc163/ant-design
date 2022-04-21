@@ -51,13 +51,6 @@ jobs:
       - name: test
         run: npm run test-image
 
-      - name: upload snapshots artifact
-        uses: actions/upload-artifact@v3
-        with:
-          name: snapshots
-          path: imageSnapshots/
-          retention-days: 3
-
       - name: Upload argos-ci
         id: deploy
         run: node ./scripts/argos-upload.js

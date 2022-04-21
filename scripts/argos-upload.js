@@ -1,5 +1,5 @@
 const util = require('util');
-const glob = require('glob');
+const glob = require('fast-glob');
 const fse = require('fs-extra');
 const lodashChunk = require('lodash/chunk');
 const childProcess = require('child_process');
@@ -25,10 +25,12 @@ async function run() {
   await Promise.all(
     chunks.map((chunk, chunkIndex) =>
       Promise.all(
-        chunk.map((screenshot) => fse.move(
+        chunk.map(screenshot =>
+          fse.move(
             screenshot,
             `${screenshotsTmp}/${chunkIndex}/${screenshot.replace(screenshotsBase, '')}`,
-          )),
+          ),
+        ),
       ),
     ),
   );
@@ -54,7 +56,7 @@ async function run() {
   }
 }
 
-run().catch((error) => {
+run().catch(error => {
   console.error(error);
   process.exit(1);
 });
