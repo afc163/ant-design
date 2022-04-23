@@ -23,7 +23,7 @@
 [codecov-image]: https://img.shields.io/codecov/c/github/ant-design/ant-design/master.svg?style=flat-square
 [codecov-url]: https://codecov.io/gh/ant-design/ant-design/branch/master
 [download-image]: https://img.shields.io/npm/dm/antd.svg?style=flat-square
-[download-url]: https://npmjs.org/package/antd
+[download-url]: https://npmjs.org/package/antdxxx
 [lgtm-image]: https://flat.badgen.net/lgtm/alerts/g/ant-design/ant-design
 [lgtm-url]: https://lgtm.com/projects/g/ant-design/ant-design/alerts/
 [fossa-image]: https://app.fossa.io/api/projects/git%2Bgithub.com%2Fant-design%2Fant-design.svg?type=shield
