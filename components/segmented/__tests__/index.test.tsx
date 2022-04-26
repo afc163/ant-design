@@ -86,10 +86,7 @@ describe('Segmented', () => {
   it('render segmented with string options', () => {
     const handleValueChange = jest.fn();
     const wrapper = mount(
-      <Segmented
-        options={['Daily', 'Weekly', 'Monthly']}
-        onChange={handleValueChange}
-      />,
+      <Segmented options={['Daily', 'Weekly', 'Monthly']} onChange={handleValueChange} />,
     );
     expect(wrapper.render()).toMatchSnapshot();
 

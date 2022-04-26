@@ -22,6 +22,8 @@ import getIcons from '../select/utils/iconUtil';
 import { getTransitionName, getTransitionDirection, SelectCommonPlacement } from '../_util/motion';
 import { FormItemInputContext } from '../form/context';
 import { getMergedStatus, getStatusClassNames, InputStatus } from '../_util/statusUtils';
+import useStyle from './style';
+import useSelectStyle from '../select/style';
 
 // Align the design since we use `rc-select` in root. This help:
 // - List search content will show all content
@@ -179,6 +181,9 @@ const Cascader = React.forwardRef((props: CascaderProps<any>, ref: React.Ref<Cas
   const prefixCls = getPrefixCls('select', customizePrefixCls);
   const cascaderPrefixCls = getPrefixCls('cascader', customizePrefixCls);
 
+  const [wrapSelectSSR, hashId] = useSelectStyle(prefixCls);
+  const [wrapCascaderSSR] = useStyle(cascaderPrefixCls);
+
   // =================== Dropdown ====================
   const mergedDropdownClassName = classNames(
     dropdownClassName || popupClassName,
@@ -186,6 +191,7 @@ const Cascader = React.forwardRef((props: CascaderProps<any>, ref: React.Ref<Cas
     {
       [`${cascaderPrefixCls}-dropdown-rtl`]: mergedDirection === 'rtl',
     },
+    hashId,
   );
 
   // ==================== Search =====================
@@ -252,7 +258,7 @@ const Cascader = React.forwardRef((props: CascaderProps<any>, ref: React.Ref<Cas
   };
 
   // ==================== Render =====================
-  return (
+  const renderNode = (
     <RcCascader
       prefixCls={prefixCls}
       className={classNames(
@@ -266,6 +272,7 @@ const Cascader = React.forwardRef((props: CascaderProps<any>, ref: React.Ref<Cas
         },
         getStatusClassNames(prefixCls, mergedStatus, hasFeedback),
         className,
+        hashId,
       )}
       {...(restProps as any)}
       direction={mergedDirection}
@@ -292,6 +299,8 @@ const Cascader = React.forwardRef((props: CascaderProps<any>, ref: React.Ref<Cas
       showArrow={hasFeedback || showArrow}
     />
   );
+
+  return wrapCascaderSSR(wrapSelectSSR(renderNode));
 }) as unknown as (<OptionType extends BaseOptionType | DefaultOptionType = DefaultOptionType>(
   props: React.PropsWithChildren<CascaderProps<OptionType>> & { ref?: React.Ref<CascaderRef> },
 ) => React.ReactElement) & {

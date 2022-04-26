@@ -7,6 +7,7 @@ import Wave from '../_util/wave';
 import { ConfigContext } from '../config-provider';
 import SizeContext from '../config-provider/SizeContext';
 import devWarning from '../_util/devWarning';
+import useStyle from './style';
 
 export type SwitchSize = 'small' | 'default';
 export type SwitchChangeEventHandler = (checked: boolean, event: MouseEvent) => void;
@@ -63,6 +64,9 @@ const Switch = React.forwardRef<unknown, SwitchProps>(
       </div>
     );
 
+    // Style
+    const [wrapSSR, hashId] = useStyle(prefixCls);
+
     const classes = classNames(
       {
         [`${prefixCls}-small`]: (customizeSize || size) === 'small',
@@ -70,9 +74,10 @@ const Switch = React.forwardRef<unknown, SwitchProps>(
         [`${prefixCls}-rtl`]: direction === 'rtl',
       },
       className,
+      hashId,
     );
 
-    return (
+    return wrapSSR(
       <Wave insertExtraNode>
         <RcSwitch
           {...props}
@@ -82,7 +87,7 @@ const Switch = React.forwardRef<unknown, SwitchProps>(
           ref={ref}
           loadingIcon={loadingIcon}
         />
-      </Wave>
+      </Wave>,
     );
   },
 ) as CompoundedComponent;
