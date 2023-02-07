@@ -1,9 +1,9 @@
 import FilterFilled from '@ant-design/icons/FilterFilled';
+import type { ItemType } from 'antd/es/menu/hooks/useItems';
 import classNames from 'classnames';
-import isEqual from 'rc-util/lib/isEqual';
 import type { FieldDataNode } from 'rc-tree';
+import isEqual from 'rc-util/lib/isEqual';
 import * as React from 'react';
-import type { MenuProps } from '../../../menu';
 import type { FilterState } from '.';
 import { flattenKeys } from '.';
 import Button from '../../../button';
@@ -12,12 +12,14 @@ import Checkbox from '../../../checkbox';
 import { ConfigContext } from '../../../config-provider/context';
 import Dropdown from '../../../dropdown';
 import Empty from '../../../empty';
+import type { MenuProps } from '../../../menu';
 import Menu from '../../../menu';
 import { OverrideProvider } from '../../../menu/OverrideContext';
 import Radio from '../../../radio';
 import type { EventDataNode } from '../../../tree';
 import Tree from '../../../tree';
 import useSyncState from '../../../_util/hooks/useSyncState';
+import warning from '../../../_util/warning';
 import type {
   ColumnFilterItem,
   ColumnType,
@@ -28,7 +30,6 @@ import type {
 } from '../../interface';
 import FilterSearch from './FilterSearch';
 import FilterDropdownMenuWrapper from './FilterWrapper';
-import warning from '../../../_util/warning';
 
 type FilterTreeDataNode = FieldDataNode<{ title: React.ReactNode; key: React.Key }>;
 
@@ -63,12 +64,11 @@ function renderFilterItems({
   searchValue: string;
   filterSearch: FilterSearchType<ColumnFilterItem>;
 }): Required<MenuProps>['items'] {
-  return filters.map((filter, index) => {
-    const key = String(filter.value);
-
+  return (filters || []).map((filter, index) => {
+    const key = filter.value as React.Key;
     if (filter.children) {
       return {
-        key: key || index,
+        key: key ?? index,
         label: filter.text,
         popupClassName: `${prefixCls}-dropdown-submenu`,
         children: renderFilterItems({
@@ -84,8 +84,8 @@ function renderFilterItems({
 
     const Component = filterMultiple ? Checkbox : Radio;
 
-    const item = {
-      key: filter.value !== undefined ? key : index,
+    const item: ItemType = {
+      key: key ?? index,
       label: (
         <>
           <Component checked={filteredKeys.includes(key)} />
@@ -182,6 +182,7 @@ function FilterDropdown<RecordType>(props: FilterDropdownProps<RecordType>) {
 
   // ===================== Select Keys =====================
   const propFilteredKeys = filterState?.filteredKeys;
+
   const [getFilteredKeysSync, setFilteredKeysSync] = useSyncState(propFilteredKeys || []);
 
   const onSelectKeys = ({ selectedKeys }: { selectedKeys: Key[] }) => {
@@ -261,7 +262,7 @@ function FilterDropdown<RecordType>(props: FilterDropdownProps<RecordType>) {
     setSearchValue('');
 
     if (filterResetToDefaultFilteredValue) {
-      setFilteredKeysSync((defaultFilteredValue || []).map((key) => String(key)));
+      setFilteredKeysSync((defaultFilteredValue || []) as Key[]);
     } else {
       setFilteredKeysSync([]);
     }
@@ -295,7 +296,7 @@ function FilterDropdown<RecordType>(props: FilterDropdownProps<RecordType>) {
 
   const onCheckAll = (e: CheckboxChangeEvent) => {
     if (e.target.checked) {
-      const allFilterKeys = flattenKeys(column?.filters).map((key) => String(key));
+      const allFilterKeys = flattenKeys(column?.filters) as Key[];
       setFilteredKeysSync(allFilterKeys);
     } else {
       setFilteredKeysSync([]);
@@ -304,16 +305,17 @@ function FilterDropdown<RecordType>(props: FilterDropdownProps<RecordType>) {
 
   const getTreeData = ({ filters }: { filters?: ColumnFilterItem[] }) =>
     (filters || []).map((filter, index) => {
-      const key = String(filter.value);
+      const key = filter.value as React.Key;
       const item: FilterTreeDataNode = {
         title: filter.text,
-        key: filter.value !== undefined ? key : index,
+        key: key ?? index,
       };
       if (filter.children) {
         item.children = getTreeData({ filters: filter.children });
       }
       return item;
     });
+
   const getFilterData = (node: FilterTreeDataNode): TreeColumnFilterItem => ({
     ...node,
     text: node.title,
@@ -346,13 +348,8 @@ function FilterDropdown<RecordType>(props: FilterDropdownProps<RecordType>) {
           <Empty
             image={Empty.PRESENTED_IMAGE_SIMPLE}
             description={locale.filterEmptyText}
-            imageStyle={{
-              height: 24,
-            }}
-            style={{
-              margin: 0,
-              padding: '16px 0',
-            }}
+            imageStyle={{ height: 24 }}
+            style={{ margin: 0, padding: '16px 0' }}
           />
         );
       }
@@ -444,13 +441,8 @@ function FilterDropdown<RecordType>(props: FilterDropdownProps<RecordType>) {
 
     const getResetDisabled = () => {
       if (filterResetToDefaultFilteredValue) {
-        return isEqual(
-          (defaultFilteredValue || []).map((key) => String(key)),
-          selectedKeys,
-          true,
-        );
+        return isEqual(defaultFilteredValue || [], selectedKeys, true);
       }
-
       return selectedKeys.length === 0;
     };
 
@@ -505,12 +497,8 @@ function FilterDropdown<RecordType>(props: FilterDropdownProps<RecordType>) {
         <span
           role="button"
           tabIndex={-1}
-          className={classNames(`${prefixCls}-trigger`, {
-            active: filtered,
-          })}
-          onClick={(e) => {
-            e.stopPropagation();
-          }}
+          className={classNames(`${prefixCls}-trigger`, { active: filtered })}
+          onClick={(e) => e.stopPropagation()}
         >
           {filterIcon}
         </span>
