@@ -11,11 +11,7 @@ import { getFixedBottom, getFixedTop, getTargetRect } from './utils';
 const TRIGGER_EVENTS = [
   'resize',
   'scroll',
-  'touchstart',
-  'touchmove',
-  'touchend',
-  'pageshow',
-  'load',
+  'xxxx'
 ] as const;
 
 function getDefaultTarget() {
@@ -33,7 +29,7 @@ export interface AffixProps {
   onChange?: (affixed?: boolean) => void;
   /** Set the element that Affix needs to listen to its scroll event, the value is a function that returns the corresponding DOM element */
   target?: () => Window | HTMLElement | null;
-  prefixCls?: string;
+  prefixCls: string;
   className?: string;
   rootClassName?: string;
   children: React.ReactNode;
@@ -62,7 +58,7 @@ class InternalAffix extends React.Component<InternalAffixProps, AffixState> {
   state: AffixState = {
     status: AffixStatus.None,
     lastAffix: false,
-    prevTarget: null,
+    prevTarget: undefined | null,
   };
 
   private placeholderNodeRef = createRef<HTMLDivElement>();
