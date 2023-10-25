@@ -8,7 +8,6 @@
 name: Release Helper
 
 on:
-  workflow_dispatch:
   release:
     types: [published]
 
