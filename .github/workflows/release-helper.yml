@@ -20,6 +20,16 @@ jobs:
     if: github.event.ref_type == 'tag'
     runs-on: ubuntu-latest
     steps:
+      - name: Tweet
+        uses: nearform-actions/github-action-notify-twitter@v1
+        with:
+          message: |
+            ${{ github.event.repository.name }} ${{ github.event.release.tag_name }} has been released ~ 🎊🎊🎊 Check out the release notes: ${{ github.event.release.html_url }}
+          twitter-app-key: ${{ secrets.TWITTER_CONSUMER_API_KEY }}
+          twitter-app-secret: ${{ secrets.TWITTER_CONSUMER_API_SECRET_KEY }}
+          twitter-access-token: ${{ secrets.TWITTER_ACCESS_TOKEN }}
+          twitter-access-token-secret: ${{ secrets.TWITTER_ACCESS_TOKEN_SECRET }}
+
       - name: release antd
         uses: actions-cool/release-helper@v2
         with:
@@ -35,16 +45,6 @@ jobs:
           msg-footer: '💬 前往 [**Ant Design Releases**]({{url}}) 查看更新日志'
           prettier: true
           prerelease-filter: '-, a, b, A, B'
-
-      - name: Tweet
-        uses: nearform-actions/github-action-notify-twitter@master
-        with:
-          message: |
-            ${{ github.event.repository.name }} ${{ github.event.release.tag_name }} has been released ~ 🎊🎊🎊 Check out the release notes: ${{ github.event.release.html_url }}
-          twitter-app-key: ${{ secrets.TWITTER_CONSUMER_API_KEY }}
-          twitter-app-secret: ${{ secrets.TWITTER_CONSUMER_API_SECRET_KEY }}
-          twitter-access-token: ${{ secrets.TWITTER_ACCESS_TOKEN }}
-          twitter-access-token-secret: ${{ secrets.TWITTER_ACCESS_TOKEN_SECRET }}
 
       - name: notice bigfish
         uses: actions-cool/release-helper@v2
