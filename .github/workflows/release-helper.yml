@@ -8,7 +8,9 @@
 name: Release Helper
 
 on:
-  create
+  workflow_dispatch:
+  release:
+    types: [published]
 
 permissions:
   contents: read
@@ -17,7 +19,6 @@ jobs:
   release-helper:
     permissions:
       contents: write  # for actions-cool/release-helper to create releases
-    if: github.event.ref_type == 'tag'
     runs-on: ubuntu-latest
     steps:
       - name: Tweet
@@ -30,7 +31,7 @@ jobs:
           twitter-access-token: ${{ secrets.TWITTER_ACCESS_TOKEN }}
           twitter-access-token-secret: ${{ secrets.TWITTER_ACCESS_TOKEN_SECRET }}
 
-      - name: release antd
+      - name: Release antd
         uses: actions-cool/release-helper@v2
         with:
           trigger: 'tag'
@@ -46,7 +47,7 @@ jobs:
           prettier: true
           prerelease-filter: '-, a, b, A, B'
 
-      - name: notice bigfish
+      - name: Notice bigfish
         uses: actions-cool/release-helper@v2
         with:
           trigger: 'tag'
