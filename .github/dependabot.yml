@@ -15,10 +15,15 @@ updates:
         dependency-type: "production"
         patterns:
         - "rc-*"
-        - "@rc-component/*"
+        - "@rc-component*"
         update-types: ["patch"]
-      other-dependencies:
-        patterns: ["*"]
+      dependencies:
+        dependency-type: "production"
         exclude-patterns:
         - "rc-*"
-        - "@rc-component/*"
+        - "@rc-component*"
+      dev-dependencies:
+        dependency-type: "development"
+        exclude-patterns:
+        - "rc-*"
+        - "@rc-component*"
