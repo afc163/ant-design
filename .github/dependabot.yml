@@ -22,7 +22,7 @@ updates:
         exclude-patterns:
         - "rc-*"
         - "@rc-component*"
-        update-types: ["majar", "minor"]
+        update-types: ["major", "minor"]
       dev-dependencies:
         dependency-type: "development"
         exclude-patterns:
