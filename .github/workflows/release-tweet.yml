@@ -8,7 +8,7 @@ permissions:
 
 jobs:
   tweet:
-    if: github.event.ref_type == 'tag' && !contains(github.event.ref, 'alpha')
+    if: ${{ github.event.ref_type == 'tag' && !contains(github.event.ref, 'alpha') }}
     runs-on: ubuntu-latest
     steps:
       - name: Tweet
