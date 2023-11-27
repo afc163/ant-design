@@ -28,3 +28,4 @@ updates:
         exclude-patterns:
         - "rc-*"
         - "@rc-component*"
+        update-types: ["major", "minor"]
