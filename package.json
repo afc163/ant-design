@@ -277,7 +277,7 @@
     "puppeteer": "^21.5.2",
     "qs": "^6.11.2",
     "rc-footer": "^0.6.8",
-    "rc-tween-one": "^3.0.3",
+    "rc-tween-one": "^3.0.6",
     "rc-virtual-list": "^3.4.11",
     "react": "^18.2.0",
     "react-copy-to-clipboard": "^5.1.0",
