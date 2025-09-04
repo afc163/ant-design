@@ -64,7 +64,7 @@ jobs:
     needs: [upstream-workflow-summary]
     steps:
       - name: checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       # We need get persist-index first
       - name: download image snapshot artifact

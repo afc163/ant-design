@@ -21,7 +21,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: cache package-lock.json
         uses: actions/cache@v4
@@ -55,7 +55,7 @@ jobs:
     needs: setup
     steps:
       - name: checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: restore cache from package-lock.json
         uses: actions/cache@v4
@@ -100,7 +100,7 @@ jobs:
     needs: [setup, build-site]
     steps:
       - name: checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: restore cache from package-lock.json
         uses: actions/cache@v4
