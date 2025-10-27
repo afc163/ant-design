@@ -236,7 +236,7 @@ jobs:
           mkdir persist-coverage
           mv coverage/coverage-final.json persist-coverage/react-${{matrix.react}}-test-${{matrix.module}}-${{strategy.job-index}}.json
 
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v5
         if: ${{ matrix.module == 'dom' && matrix.react == '18' }}
         name: upload coverages
         with:
@@ -348,7 +348,7 @@ jobs:
           CI: 1
 
       # Artifact build files
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v5
         if: github.event_name == 'push' && github.ref == 'refs/heads/master'
         with:
           name: build artifacts
