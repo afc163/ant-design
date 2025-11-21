@@ -7,7 +7,7 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - run: corepack enable
       - uses: actions/setup-node@v4
@@ -25,7 +25,7 @@ jobs:
         run: rm -rf examples
 
       - name: Clone examples
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           repository: ant-design/ant-design-examples
           path: examples
